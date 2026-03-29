@@ -1,6 +1,6 @@
 # LOGWRAP
 
-A lightweight C wrapper that can capture the underlying process's logs and write to a custom local file.
+A lightweight C wrapper that can capture the logs written to stdout by the underlying process and write to a custom local file.
 
 ## USAGE
 ```
