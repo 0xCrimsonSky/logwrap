@@ -16,6 +16,7 @@ int main(int argc, char** argv){
     int out_fd = open("file.out", O_WRONLY | O_CREAT | O_APPEND);
 
     char buffer[1024];
+    memset(buffer, 0, sizeof(buffer));
     int cpid = fork();
     setvbuf(stdout, NULL, _IOLBF, 0);
 
@@ -27,12 +28,13 @@ int main(int argc, char** argv){
             return 0;
         }
         close(fd[1]);
-        execlp("stdbuf", "stdbuf", "-oL", "sh", "-c", argv[1], NULL);
+        execlp("sh", "sh", "-c", argv[1], NULL);
     } else {
         close(fd[1]);
         while(read(fd[0], buffer, sizeof(buffer)) > 0){
             write(STDOUT_FILENO, buffer, strlen(buffer));
             write(out_fd, buffer, strlen(buffer));
+            memset(buffer, 0, sizeof(buffer));
         }
         close(fd[0]);
         wait(NULL);
